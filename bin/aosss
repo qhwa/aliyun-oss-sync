@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+require 'gli'
+begin # XXX: Remove this begin/rescue before distributing your app
+require 'aosss'
+rescue LoadError
+  STDERR.puts "In development, you need to use `bundle exec bin/aosss` to run your app"
+  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+  STDERR.puts "Feel free to remove this message from bin/aosss now"
+  exit 64
+end
+
+include GLI::App
+
+program_desc 'aliyun oss sync'
+version Aosss::VERSION
+
+#desc 'Describe some switch here'
+#switch [:s,:switch]
+
+desc 'aliyun access key id'
+flag [:k, :key]
+
+desc 'aliyun access key secret'
+flag [:s, :secret]
+
+pre do |global,command,options,args|
+  true
+end
+
+post do |global,command,options,args|
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  puts exception.message
+  puts exception.backtrace
+  true
+end
+
+
+desc 'pull files from Aliyun OSS to local directory'
+arg_name 'bucket'
+
+command :pull do |c|
+
+  c.action do |global, options, args|
+    Aosss.pull  key:        global[:key],
+                secret:     global[:secret],
+                remote:     args[0],
+                local_path: args[1] || Dir.pwd
+
+  end
+end
+
+desc 'push files from local directory to Aliyun OSS'
+command :push do |c|
+  c.desc 'only test, not do real file uploading'
+  c.switch [:d, :dryrun]
+
+  c.action do |global, options, args|
+    Aosss.push  key:        global[:key],
+                secret:     global[:secret],
+                remote:     args[0],
+                local_path: args[1] || Dir.pwd,
+                dryrun:     options[:dryrun]
+  end
+end
+
+desc 'sync files between local directory and Aliyun OSS'
+command :sync do |c|
+  c.action do
+  end
+end
+
+
+exit run(ARGV)

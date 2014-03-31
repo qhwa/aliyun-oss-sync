@@ -1,0 +1,5 @@
+= aosss
+
+Generate this with
+    aosss rdoc
+After you have described your command line interface
