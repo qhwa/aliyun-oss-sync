@@ -6,6 +6,7 @@ PATH
       colored
       gli (= 2.9.0)
       listen
+      mime-types
 
 GEM
   remote: http://ruby.taobao.org/

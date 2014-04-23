@@ -58,12 +58,17 @@ command :push do |c|
   c.desc 'only test, not do real file uploading'
   c.switch [:d, :dryrun]
 
+  c.desc 'copy method'
+  c.default_value 'skip'
+  c.flag :method
+
   c.action do |global, options, args|
     Aosss.push  key:        global[:key],
                 secret:     global[:secret],
+                dryrun:     options[:dryrun],
+                method:     options[:method],
                 remote:     args[0],
-                local_path: args[1] || Dir.pwd,
-                dryrun:     options[:dryrun]
+                local_path: args[1] || Dir.pwd
   end
 end
 

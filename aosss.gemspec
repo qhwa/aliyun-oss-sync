@@ -12,17 +12,19 @@ spec = Gem::Specification.new do |s|
 ")
   s.require_paths << 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc','aosss.rdoc']
+  s.extra_rdoc_files = ['README.md','aosss.rdoc']
   s.rdoc_options << '--title' << 'aosss' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'aosss'
 
-  s.add_dependency('aliyun-oss')
-  s.add_dependency('listen')
-  s.add_dependency('colored')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
+
   s.add_runtime_dependency('gli','2.9.0')
+  s.add_runtime_dependency('aliyun-oss')
+  s.add_runtime_dependency('listen')
+  s.add_runtime_dependency('colored')
+  s.add_runtime_dependency('mime-types')
 end

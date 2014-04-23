@@ -15,6 +15,7 @@ module Aosss
       @secret     = options[:secret] || ENV['OSS_ACCESS_SECRET']
       @remote     = options[:remote]
       @dryrun     = options[:dryrun]
+      @method     = options[:method]
       @local_path = File.expand_path(options[:local_path])
       parse_remote
       init_connection
@@ -31,9 +32,10 @@ module Aosss
     def push
       step_info "pushing #{"(dryrun)" if @dryrun}"
 
-      print "\n" << indent << "#{bucket}:#{remote_path}".bold
-      print " => "
-      print "local:#{local_path}\n\n".bold
+      print "\n#{indent} " <<
+        "#{bucket}:#{remote_path}".bold <<
+        " => local:#{local_path}".bold <<
+        "\n\n"
 
       Find.find( local_path ) do |path|
         if File.basename(path).start_with? ?.
@@ -41,10 +43,9 @@ module Aosss
         elsif !File.directory?(path)
           file = short_path(path)
 
-          print indent << "=> ".black
-          print file
+          print indent << "=> ".black << file
 
-          if exist_on_oss?( file )
+          if @method == "skip" and exist_on_oss?( File.join( remote_path, file ) )
             print " ~skip\n".yellow
           else
             push_to_oss( file ) unless @dryrun
