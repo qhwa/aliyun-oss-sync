@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    aosss (0.0.1)
+    aliyun-oss-sync (0.0.1)
       aliyun-oss
       colored
       gli (= 2.9.0)
@@ -64,7 +64,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aosss!
+  aliyun-oss-sync!
   aruba
   rake
   rdoc

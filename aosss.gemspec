@@ -1,13 +1,13 @@
 # Ensure we require the local version and not one we might have installed already
 require File.join([File.dirname(__FILE__),'lib','aosss','version.rb'])
 spec = Gem::Specification.new do |s| 
-  s.name = 'aosss'
+  s.name = 'aliyun-oss-sync'
   s.version = Aosss::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.author = 'qhwa'
+  s.email = 'qhwa@163.com'
+  s.homepage = 'http://q.pnq.cc'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Sync script for aliyun OSS'
   s.files = `git ls-files`.split("
 ")
   s.require_paths << 'lib'
@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.md','aosss.rdoc']
   s.rdoc_options << '--title' << 'aosss' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
-  s.executables << 'aosss'
+  s.executables << 'aliyun-oss-sync'
 
 
   s.add_development_dependency('rake')
