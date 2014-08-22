@@ -20,6 +20,29 @@
     OSS_ACCESS_SECRET=your-access-secret \
     aliyun-oss-sync pull bucket名称:远程目录 本地目录
 
-具体的参数可以用 `aliyun-oss-sync --help [子命令]` 查看
+### 参数
+
+~~~sh
+NAME
+    aliyun-oss-sync - aliyun oss sync
+
+SYNOPSIS
+    aliyun-oss-sync [global options] command [command options] [arguments...]
+
+VERSION
+    0.0.1
+
+GLOBAL OPTIONS
+    --help           - Show this message
+    -k, --key=arg    - aliyun access key id (default: none)
+    -s, --secret=arg - aliyun access key secret (default: none)
+    --version        - Display the program version
+
+COMMANDS
+    help - Shows a list of commands or help for one command
+    pull - pull files from Aliyun OSS to local directory
+    push - push files from local directory to Aliyun OSS
+    sync - sync files between local directory and Aliyun OSS
+~~~
 
 
