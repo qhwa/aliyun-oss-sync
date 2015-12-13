@@ -8,11 +8,12 @@ module Aosss
 
   class Sync
 
-    attr_reader :bucket, :key, :secret, :remote, :remote_path, :local_path
+    attr_reader :bucket, :key, :secret, :endpoint, :remote, :remote_path, :local_path
 
     def initialize( options )
       @key        = options[:key] || ENV['OSS_ACCESS_ID']
       @secret     = options[:secret] || ENV['OSS_ACCESS_SECRET']
+      @endpoint   = options[:endpoint]
       @remote     = options[:remote]
       @dryrun     = options[:dryrun]
       @method     = options[:method]
@@ -33,8 +34,8 @@ module Aosss
       step_info "pushing #{"(dryrun)" if @dryrun}"
 
       print "\n#{indent} " <<
-        "#{bucket}:#{remote_path}".bold <<
-        " => local:#{local_path}".bold <<
+        "local:#{local_path}".bold <<
+        " => #{bucket}:#{remote_path}".bold <<
         "\n\n"
 
       Find.find( local_path ) do |path|
@@ -65,10 +66,11 @@ module Aosss
 
       def init_connection
         step_info "init connection"
-        Aliyun::OSS::Base.establish_connection!(
-          :access_key_id     => key, 
-          :secret_access_key => secret
-        )
+        @client = Aliyun::OSS::Client.new({
+          endpoint: endpoint,
+          access_key_id: key,
+          access_key_secret: secret
+        })
       end
 
       def step_info( msg )
@@ -84,24 +86,17 @@ module Aosss
       end
 
       def push_to_oss( file )
-        Aliyun::OSS::OSSObject.store(
-          File.join( remote_path, file ),
-          open(file),
-          bucket
-        )
-      end
-
-      def open( file )
-        File.open( File.expand_path(file, local_path) )
+        remote_file = File.join( remote_path, file )
+        remote_file = remote_file[1..-1]  if remote_file.start_with? '/'
+        oss_bucket.put_object(remote_file, :file => File.expand_path(file, local_path))
       end
 
       def exist_on_oss?( file )
-        oss_bucket
-        Aliyun::OSS::OSSObject.exists? file, bucket
+        oss_bucket.object_exists? file
       end
 
       def oss_bucket
-        @oss_bucket ||= Aliyun::OSS::Bucket.find bucket
+        @oss_bucket ||= @client.get_bucket bucket
       end
 
     public
