@@ -23,7 +23,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('aruba')
 
   s.add_runtime_dependency('gli','2.9.0')
-  s.add_runtime_dependency('aliyun-oss')
+  s.add_runtime_dependency('aliyun-sdk')
   s.add_runtime_dependency('listen')
   s.add_runtime_dependency('colored')
   s.add_runtime_dependency('mime-types')

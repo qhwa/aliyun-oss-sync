@@ -12,13 +12,17 @@
 
     OSS_ACCESS_ID=your-access-id \
     OSS_ACCESS_SECRET=your-access-secret \
-    aliyun-oss-sync push bucket名称:远程目录 本地目录
+    aliyun-oss-sync -e endpoint push bucket名称:远程目录 本地目录
 
-### OSS文件同步到本地
+### OSS文件同步到本地(Not implemented)
 
     OSS_ACCESS_ID=your-access-id \
     OSS_ACCESS_SECRET=your-access-secret \
-    aliyun-oss-sync pull bucket名称:远程目录 本地目录
+    aliyun-oss-sync -e endpoint  pull bucket名称:远程目录 本地目录
+
+### Example
+
+    aliyun-oss-sync -e http://oss-cn-shenzhen.aliyuncs.com -k xxx -s ooo push mybucket:remote_path local_path
 
 ### 参数
 
@@ -33,6 +37,7 @@ VERSION
     0.0.1
 
 GLOBAL OPTIONS
+    -e, --endpoint=arg - aliyun access endpoint (default: none)
     --help           - Show this message
     -k, --key=arg    - aliyun access key id (default: none)
     -s, --secret=arg - aliyun access key secret (default: none)
